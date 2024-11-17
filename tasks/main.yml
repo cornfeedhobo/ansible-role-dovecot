@@ -1,0 +1,25 @@
+---
+- # This include ensures this role is only used against supported hosts
+  name: "Include OS-specific variables"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+  tags: ["dovecot", "dovecot-install", "dovecot-ssl", "dovecot-configure", "dovecot-service"]
+-
+  name: "Include install.yml"
+  when: "dovecot_install"
+  ansible.builtin.import_tasks: "install.yml"
+  tags: ["dovecot", "dovecot-install"]
+-
+  name: "Include ssl.yml"
+  when: "dovecot_ssl"
+  ansible.builtin.import_tasks: "ssl.yml"
+  tags: ["dovecot", "dovecot-ssl"]
+-
+  name: "Include configure.yml"
+  when: "dovecot_configure"
+  ansible.builtin.import_tasks: "configure.yml"
+  tags: ["dovecot", "dovecot-configure"]
+-
+  name: "Include service.yml"
+  when: "dovecot_service"
+  ansible.builtin.import_tasks: "service.yml"
+  tags: ["dovecot", "dovecot-service"]

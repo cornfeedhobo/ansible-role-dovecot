@@ -1,0 +1,33 @@
+---
+-
+  name: "Verify"
+  hosts: "all"
+  tasks:
+    -
+      name: "Include role variables"
+      ansible.builtin.include_vars: "{{ item }}"
+      with_items:
+        - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/vars/{{ ansible_os_family }}.yml"
+        - "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
+    -
+      name: "Get the dovecot package status"
+      ansible.builtin.package:
+        name: "{{ dovecot_packages }}"
+      check_mode: true
+      diff: true
+      register: "_dovecot_packages"
+    -
+      name: "Assert that dovecot is already installed"
+      ansible.builtin.assert:
+        that:
+          - "not _dovecot_packages.changed"
+    -
+      name: "Get the dovecot ansible config status"
+      ansible.builtin.stat:
+        path: "{{ dovecot_config_dir }}/ansible-managed.conf"
+      register: "_dovecot_config"
+    -
+      name: "Assert that dovecot is configured"
+      ansible.builtin.assert:
+        that:
+          - "_dovecot_config.stat.exists is defined and _dovecot_config.stat.exists"

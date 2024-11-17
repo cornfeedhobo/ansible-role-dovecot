@@ -1,0 +1,31 @@
+---
+-
+  name: "ssl | Ensure the SSL directory exists"
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ dovecot_ssl_dir }}"
+    owner: "{{ dovecot_owner }}"
+    group: "{{ dovecot_group }}"
+    mode: "1700"
+-
+  name: "ssl | Manage dovecot ssl files"
+  become: true
+  no_log: true
+  ansible.builtin.copy:
+    backup: true
+    dest: "{{ dovecot_ssl_dir }}/{{ item.name }}"
+    owner: "{{ dovecot_owner }}"
+    group: "{{ dovecot_group }}"
+    mode: "0600"
+    content: "{{ item.content }}"
+  with_items:
+    -
+      name: "{{ dovecot_ssl_pair.name }}.crt"
+      content: "{{ dovecot_ssl_pair.crt }}"
+    -
+      name: "{{ dovecot_ssl_pair.name }}.key"
+      content: "{{ dovecot_ssl_pair.key }}"
+  notify:
+    - "Validate dovecot config"
+    - "Reload dovecot service"

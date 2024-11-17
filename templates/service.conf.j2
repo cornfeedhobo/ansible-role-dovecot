@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+[Service]
+ExecStart=
+ExecStart={{ dovecot_bin_path }} -F -c {{ dovecot_config_dir }}/ansible-managed.conf

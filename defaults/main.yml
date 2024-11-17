@@ -1,0 +1,25 @@
+---
+
+dovecot_install: false
+dovecot_package_state: "present"
+dovecot_packages: "{{ __dovecot_packages }}"
+
+dovecot_service: false
+dovecot_service_name: "dovecot"
+dovecot_service_state: "started"
+dovecot_service_enabled: true
+dovecot_bin_path: "{{ __dovecot_bin_path }}"
+
+dovecot_owner: "{{ __dovecot_owner }}"
+dovecot_group: "{{ __dovecot_group }}"
+
+dovecot_ssl: false
+dovecot_ssl_dir: "{{ __dovecot_ssl_dir }}"
+dovecot_ssl_pair:
+  name: ""
+  key: ""
+  crt: ""
+
+dovecot_configure: false
+dovecot_config_dir: "{{ __dovecot_config_dir }}"
+dovecot_config: ""

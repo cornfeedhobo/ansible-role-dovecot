@@ -1,0 +1,33 @@
+---
+-
+  name: "Validate dovecot config"
+  become: true
+  ansible.builtin.command: "doveconf"
+  changed_when: false
+-
+  name: "Reload dovecot service"
+  when:
+    - "dovecot_service"
+    - "dovecot_service_state == 'started'"
+  become: true
+  ansible.builtin.service:
+    name: "{{ dovecot_service_name }}"
+    state: "reloaded"
+-
+  name: "Run daemon-reload"
+  when:
+    - "dovecot_service"
+    - "dovecot_service_state == 'started'"
+    - "ansible_service_mgr == 'systemd'"
+  become: true
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+-
+  name: "Restart dovecot service"
+  when:
+    - "dovecot_service"
+    - "dovecot_service_state == 'started'"
+  become: true
+  ansible.builtin.service:
+    name: "{{ dovecot_service_name }}"
+    state: "restarted"

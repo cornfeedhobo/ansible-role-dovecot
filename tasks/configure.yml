@@ -1,0 +1,11 @@
+---
+-
+  name: "configure | Manage dovecot config file"
+  become: true
+  ansible.builtin.template:
+    backup: true
+    src: "config.j2"
+    dest: "{{ dovecot_config_dir }}/ansible-managed.conf"
+    owner: "{{ dovecot_owner }}"
+    group: "{{ dovecot_group }}"
+    mode: "0644"

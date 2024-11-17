@@ -1,0 +1,13 @@
+---
+
+__dovecot_owner: "root"
+
+__dovecot_group: "root"
+
+__dovecot_packages: ["dovecot"]
+
+__dovecot_bin_path: "/usr/sbin/dovecot"
+
+__dovecot_config_dir: "/etc/dovecot"
+
+__dovecot_ssl_dir: "{{ __dovecot_config_dir }}/ssl"

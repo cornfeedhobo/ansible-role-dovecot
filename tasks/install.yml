@@ -1,0 +1,7 @@
+---
+-
+  name: "install | Manage dovecot package(s)"
+  become: true
+  ansible.builtin.package:
+    name: "{{ dovecot_packages | list }}"
+    state: "{{ dovecot_package_state }}"

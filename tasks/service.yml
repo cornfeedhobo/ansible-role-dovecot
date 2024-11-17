@@ -1,0 +1,29 @@
+---
+-
+  name: "service | Create systemd override directory"
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "/etc/systemd/system/dovecot.service.d"
+    owner: "root"
+    group: "root"
+    mode: "1755"
+-
+  name: "service | Write systemd override file"
+  become: true
+  ansible.builtin.template:
+    src: "service.conf.j2"
+    dest: "/etc/systemd/system/dovecot.service.d/service.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify:
+    - "Run daemon-reload"
+    - "Restart dovecot service"
+-
+  name: "service | Manage dovecot service"
+  become: true
+  ansible.builtin.service:
+    name: "{{ dovecot_service_name }}"
+    state: "{{ dovecot_service_state }}"
+    enabled: "{{ dovecot_service_enabled }}"

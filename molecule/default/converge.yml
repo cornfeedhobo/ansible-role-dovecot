@@ -1,0 +1,12 @@
+---
+-
+  name: "Converge"
+  hosts: "all"
+  tasks:
+    -
+      name: "Include cornfeedhobo.dovecot"
+      ansible.builtin.include_role:
+        name: "cornfeedhobo.dovecot"
+      vars:
+        dovecot_install: true
+        dovecot_configure: true
